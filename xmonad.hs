@@ -21,6 +21,7 @@ main =
 myConfig =
   def
     { modMask = mod4Mask, -- Rebind Mod to the Super key
+      terminal = "alacritty",
       layoutHook = myLayout, -- Use custom layouts
       manageHook = myManageHook -- Match on certain windows
     }
