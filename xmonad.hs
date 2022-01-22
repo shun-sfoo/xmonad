@@ -1,4 +1,5 @@
 import XMonad
+import XMonad.Actions.GridSelect
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
@@ -27,7 +28,8 @@ myConfig =
     }
     `additionalKeysP` [ ("M-S-z", spawn "xscreensaver-command -lock"),
                         ("M-S-=", unGrab *> spawn "scrot -s"),
-                        ("M-]", spawn "firefox-developer-edition")
+                        ("M-]", spawn "firefox-developer-edition"),
+                        ("M-s", spawnSelected def ["alacritty", "vscode", "firefox-developer-edition", "android-file-transfer"])
                       ]
 
 myManageHook :: ManageHook
