@@ -13,31 +13,31 @@ import XMonad.Util.Ungrab
 
 main :: IO ()
 main =
-  xmonad
-    . ewmhFullscreen
-    . ewmh
-    . withEasySB (statusBarProp "xmobar ~/.config/xmonad/xmobarrc" (pure myXmobarPP)) defToggleStrutsKey
-    $ myConfig
+    xmonad
+        . ewmhFullscreen
+        . ewmh
+        . withEasySB (statusBarProp "xmobar ~/.config/xmonad/xmobarrc" (pure myXmobarPP)) defToggleStrutsKey
+        $ myConfig
 
 myConfig =
-  def
-    { modMask = mod4Mask, -- Rebind Mod to the Super key
-      terminal = "alacritty",
-      layoutHook = myLayout, -- Use custom layouts
-      manageHook = myManageHook -- Match on certain windows
-    }
-    `additionalKeysP` [ ("M-S-z", spawn "xscreensaver-command -lock"),
-                        ("M-S-=", unGrab *> spawn "scrot -s"),
-                        ("M-]", spawn "firefox-developer-edition"),
-                        ("M-s", spawnSelected def ["alacritty", "vscode", "firefox-developer-edition", "android-file-transfer"])
-                      ]
+    def
+        { modMask = mod4Mask -- Rebind Mod to the Super key
+        , terminal = "alacritty"
+        , layoutHook = myLayout -- Use custom layouts
+        , manageHook = myManageHook -- Match on certain windows
+        }
+        `additionalKeysP` [ ("M-S-z", spawn "xscreensaver-command -lock")
+                          , ("M-S-=", unGrab *> spawn "scrot -s")
+                          , ("M-]", spawn "firefox-developer-edition")
+                          , ("M-s", spawnSelected def ["alacritty", "code", "feishu", "firefox-developer-edition", "android-file-transfer"])
+                          ]
 
 myManageHook :: ManageHook
 myManageHook =
-  composeAll
-    [ className =? "Gimp" --> doFloat,
-      isDialog --> doFloat
-    ]
+    composeAll
+        [ className =? "Gimp" --> doFloat
+        , isDialog --> doFloat
+        ]
 
 myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol
   where
@@ -49,16 +49,16 @@ myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol
 
 myXmobarPP :: PP
 myXmobarPP =
-  def
-    { ppSep = magenta " • ",
-      ppTitleSanitize = xmobarStrip,
-      ppCurrent = wrap " " "" . xmobarBorder "Top" "#8be9fd" 2,
-      ppHidden = white . wrap " " "",
-      ppHiddenNoWindows = lowWhite . wrap " " "",
-      ppUrgent = red . wrap (yellow "!") (yellow "!"),
-      ppOrder = \[ws, l, _, wins] -> [ws, l, wins],
-      ppExtras = [logTitles formatFocused formatUnfocused]
-    }
+    def
+        { ppSep = magenta " • "
+        , ppTitleSanitize = xmobarStrip
+        , ppCurrent = wrap " " "" . xmobarBorder "Top" "#8be9fd" 2
+        , ppHidden = white . wrap " " ""
+        , ppHiddenNoWindows = lowWhite . wrap " " ""
+        , ppUrgent = red . wrap (yellow "!") (yellow "!")
+        , ppOrder = \[ws, l, _, wins] -> [ws, l, wins]
+        , ppExtras = [logTitles formatFocused formatUnfocused]
+        }
   where
     formatFocused = wrap (white "[") (white "]") . magenta . ppWindow
     formatUnfocused = wrap (lowWhite "[") (lowWhite "]") . blue . ppWindow
